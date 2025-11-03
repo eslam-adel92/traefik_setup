@@ -10,7 +10,7 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - ./traefic.yaml:/etc/traefik/traefik.yaml:ro
       # - ./data/certs:/var/traefik/certs:rw
     networks:
       - web
