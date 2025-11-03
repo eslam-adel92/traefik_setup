@@ -1,12 +1,13 @@
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
-log:
-  level: DEBUG
+# traefik.yml - UPDATED FOR TRAEFIK v3
 api:
   dashboard: true
+  insecure: true  # For testing only
   debug: true
-  insecure: true
+log:
+  level: DEBUG
 entryPoints:
   web:
     address: ":80"
@@ -17,7 +18,6 @@ entryPoints:
     #       scheme: https
   websecure:
     address: ":443"
-
 # certificatesresolvers:
 #   myresolver:
 #     acme:
@@ -25,13 +25,11 @@ entryPoints:
 #       storage: /var/traefic/certs/acme.json
 #       httpChallenge:
 #         entryPoint: web
-
-
 providers:
   docker:
+    endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    endpoints:
-    - "unix:///var/run/docker.sock"
+
 experimental:
   plugins:
     traefik-coraza-waf:
