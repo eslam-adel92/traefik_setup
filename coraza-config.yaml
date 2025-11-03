@@ -1,0 +1,43 @@
+# coraza-config.yaml
+# Coraza configuration for Traefik plugin
+directives:
+  # Include OWASP Core Rule Set
+  - Include @crs-setup.conf
+  - Include @owasp_crs/*.conf
+  
+  # Custom rules
+  - SecRuleEngine On
+  - SecRequestBodyAccess On
+  - SecResponseBodyAccess On
+  - SecAuditEngine RelevantOnly
+  - SecAuditLog /dev/stdout
+  - SecDebugLog /dev/stdout
+  - SecDebugLogLevel 0
+  
+  # Customize these paths based on your CRS installation
+  - Include @crs-setup.conf
+  - Include @owasp_crs/request-9001-exclusion-rules.conf
+  - Include @owasp_crs/response-9500-exclusion-rules.conf
+  - Include @owasp_crs/REQUEST-910-IP-REPUTATION.conf
+  - Include @owasp_crs/REQUEST-911-METHOD-ENFORCEMENT.conf
+  - Include @owasp_crs/REQUEST-912-DOS-PROTECTION.conf
+  - Include @owasp_crs/REQUEST-913-SCANNER-DETECTION.conf
+  - Include @owasp_crs/REQUEST-921-PROTOCOL-ATTACK.conf
+  - Include @owasp_crs/REQUEST-930-APPLICATION-ATTACK-LFI.conf
+  - Include @owasp_crs/REQUEST-931-APPLICATION-ATTACK-RFI.conf
+  - Include @owasp_crs/REQUEST-932-APPLICATION-ATTACK-RCE.conf
+  - Include @owasp_crs/REQUEST-933-APPLICATION-ATTACK-PHP.conf
+  - Include @owasp_crs/REQUEST-941-APPLICATION-ATTACK-XSS.conf
+  - Include @owasp_crs/REQUEST-942-APPLICATION-ATTACK-SQLI.conf
+  - Include @owasp_crs/REQUEST-943-APPLICATION-ATTACK-SESSION-FIXATION.conf
+  - Include @owasp_crs/RESPONSE-950-DATA-LEAKAGES.conf
+  - Include @owasp_crs/RESPONSE-951-DATA-LEAKAGES-SQL.conf
+  - Include @owasp_crs/RESPONSE-952-DATA-LEAKAGES-JAVA.conf
+  - Include @owasp_crs/RESPONSE-953-DATA-LEAKAGES-PHP.conf
+  - Include @owasp_crs/RESPONSE-954-DATA-LEAKAGES-IIS.conf
+
+  # Custom rules - adjust as needed
+  - SecRule REMOTE_ADDR "@ipMatch 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12" "id:1000,phase:1,pass,nolog,ctl:ruleEngine=Off"
+  
+  # Example: Block common attack patterns
+  - SecRule ARGS:username "@contains admin" "id:1001,phase:2,deny,status:403,msg:'Admin username not allowed'"

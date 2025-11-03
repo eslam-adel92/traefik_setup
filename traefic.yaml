@@ -1,0 +1,39 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+log:
+  level: DEBUG
+api:
+  dashboard: true
+  debug: true
+  insecure: true
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+certificatesresolvers:
+  myresolver:
+    acme:
+      email: ea.cloudhost@gmail.com
+      storage: /var/traefic/certs/acme.json
+      httpChallenge:
+        entryPoint: web
+
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoints:
+    - "unix:///var/run/docker.sock"
+experimental:
+  plugins:
+    traefik-coraza-waf:
+      moduleName: "github.com/traefik/traefik-plugin-coraza"
+      version: "v0.2.0"
