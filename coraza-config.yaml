@@ -1,7 +1,15 @@
-# coraza-simple-config.yaml - MINIMAL WORKING VERSION
+# coraza-config.yaml
 directives:
   # Basic settings
   - SecRuleEngine On
   - SecRequestBodyAccess On
+  - SecResponseBodyAccess On
   - SecAuditEngine RelevantOnly
   - SecAuditLog /dev/stdout
+  - SecAuditLogFormat JSON
+  - SecAuditLogParts ABCDEFGHIJKZ
+
+  # Basic protection rules
+  # - SecRule REQUEST_HEADERS:User-Agent "@rx (?i)(curl|wget|nikto|sqlmap)" "id:1000,phase:1,deny,status:403,msg:'Malicious User Agent'"
+  # - SecRule REQUEST_URI "@rx (?i)(\.\.\/|\.\.\\|%2e%2e%2f|%252e%252e%252f)" "id:1001,phase:1,deny,status:403,msg:'Directory Traversal Attack'"
+  # - SecRule ARGS "@rx (?i)(<|>|'|\"|;|`|\$\(|\|)" "id:1002,phase:2,deny,status:403,msg:'Common Attack Patterns'"

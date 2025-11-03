@@ -30,8 +30,14 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
 
+pilot:
+  dashboard: false
+
 experimental:
   plugins:
     traefik-coraza-waf:
       moduleName: "github.com/jcchavezs/coraza-http-wasm-traefik"
       version: "v0.3.0"
+
+serversTransport:
+  maxIdleConnsPerHost: 100
